@@ -1,0 +1,45 @@
+    var getCreationRangeByName = function(associateName, targetSheetName) {
+    	var targetSheetRange = null;
+
+        var buffer = 1;
+        var rowL = 2;
+        var contentL = 12;
+        var section = 5;
+        var sectionNameRow;
+        var sectionLength = rowL + contentL;
+      var targetSheet = ss.getSheetByName(targetSheetName);
+      for (var i = 0; i < section; i++) {
+        	var sectionNameRowCalc = (i * sectionLength) + buffer + 1;
+
+            var sectionNameRange = targetSheet.getRange(sectionNameRowCalc, 1, 1, 1);
+
+            var sectionName = sectionNameRange.getValue();
+          
+            Logger.log(sectionName);
+
+            if (sectionName == associateName) {
+	            var sectionFirstRowCalc = ((i * sectionLength) + buffer + rowL) + 1;
+	            var sectionLastRowCalc = sectionFirstRowCalc + (contentL-1);
+              
+              Logger.log("section first row calc: "  + sectionFirstRowCalc);
+              Logger.log("section last row calc: "  + sectionLastRowCalc);
+
+	            //loop through rows in section
+            	for (var k = sectionFirstRowCalc; k < sectionLastRowCalc; k++) {
+
+            		var sectionRowRange = targetSheet.getRange(k, 1, 1, 1);
+            		var sectionRowRangeIsEmpty = (sectionRowRange.getValue() ==  "");
+                  
+                  Logger.log(sectionRowRangeIsEmpty);
+
+					if (sectionRowRangeIsEmpty) {
+                      
+						return sectionRowRange;
+					}
+
+            	}
+
+            }
+
+        }
+    };
